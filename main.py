@@ -49,24 +49,24 @@ if __name__ == "__main__":
             print("{}: {}".format(ind, goods))
         print("===================")
 
-    i = input("お金を入れてください: ")
-    vending_machine.enter(int(i))
-
     while(True):
-        if i == "売り上げ":
-            print("=========")
-            print(vending_machine.total())
-            print("=========")
-            continue
-        elif i == "rank":
-            print("=========")
-            print("直近10個の購入ランキング!!")
-            for rank, goods in enumerate(vending_machine.return_best3(), start=1):
-                print("{}位: {} {}個".format(rank, goods[0], goods[1]))
-            print("=========")
-            continue
-        
-        print(vending_machine.personal_array)
+        if vending_machine.money_sum() < 100:
+            i = input("お金を入れてください: ")
+
+            if i == "売り上げ":
+                print("=========")
+                print(vending_machine.total())
+                print("=========")
+                continue
+            elif i == "rank":
+                print("=========")
+                print("直近10個の購入ランキング!!")
+                for rank, goods in enumerate(vending_machine.return_best3(), start=1):
+                    print("{}位: {} {}個".format(rank, goods[0], goods[1]))
+                print("=========")
+                continue
+            else:
+                vending_machine.enter(int(i))
 
         if vending_machine.money_sum() >= 100:
             is_percase = input("購入しますか[y/n]: ")
@@ -78,17 +78,17 @@ if __name__ == "__main__":
                 おつり = vending_machine.money_sum() - 100
                 is_continue = input("続けて購入しますか[y/n]: ")
                 if is_continue == "y":
-                    if vending_machine.money_sum() <= 100:
+                    if vending_machine.money_sum() < 100:
                         print("お金が足りません")
-                        i = input("お金を入れてください: ")
-                        vending_machine.enter(i)
+                        # i = input("お金を入れてください: ")
+                        # vending_machine.enter(i)
                     else:
                         vending_machine.personal_array = [おつり]
                 else:
                     print("お釣り: {}円".format(おつり))
                     vending_machine.clear()
-                    i = input("お金を入れてください: ")
-                    vending_machine.enter(i)
+                    # i = input("お金を入れてください: ")
+                    # vending_machine.enter(i)
             else:
                 print("返金致します")
                 vending_machine.clear()
@@ -101,5 +101,5 @@ if __name__ == "__main__":
                 vending_machine.clear()
             else:
                 print("お金が足りません")
-                i = input("お金を入れてください: ")
-                vending_machine.enter(i)
+                # i = input("お金を入れてください: ")
+                # vending_machine.enter(i)
