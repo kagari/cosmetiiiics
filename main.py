@@ -41,51 +41,59 @@ class VendingMachine():
 
 if __name__ == "__main__":
     vending_machine = VendingMachine()
-    is_continue = "n"
+
+    if vending_machine.money_sum() == 0:
+        print("===================")
+        print("全商品100円でございます！！")
+        for ind, goods in enumerate(vending_machine.goods, start=1):  # 商品を表示
+            print("{}: {}".format(ind, goods))
+        print("===================")
+
+    i = input("お金を入れてください: ")
+    vending_machine.enter(int(i))
 
     while(True):
-        if is_continue != "y":
-            if vending_machine.money_sum() == 0:
-                print("===================")
-                print("全商品100円でございます！！")
-                for ind, goods in enumerate(vending_machine.goods, start=1):  # 商品を表示
-                    print("{}: {}".format(ind, goods))
-                print("===================")
-
-            i = input("お金を入れてください: ")
-
-            if i == "売り上げ":
-                print("=========")
-                print(vending_machine.total())
-                print("=========")
-                continue
-            elif i == "rank":
-                print("=========")
-                print("直近10個の購入ランキング!!")
-                for rank, goods in enumerate(vending_machine.return_best3(), start=1):
-                    print("{}位: {} {}個".format(rank, goods[0], goods[1]))
-                print("=========")
-                continue
-
-            print(vending_machine.enter(int(i)))
+        if i == "売り上げ":
+            print("=========")
+            print(vending_machine.total())
+            print("=========")
+            continue
+        elif i == "rank":
+            print("=========")
+            print("直近10個の購入ランキング!!")
+            for rank, goods in enumerate(vending_machine.return_best3(), start=1):
+                print("{}位: {} {}個".format(rank, goods[0], goods[1]))
+            print("=========")
+            continue
+        
+        print(vending_machine.personal_array)
 
         if vending_machine.money_sum() >= 100:
-            select = input("購入しますか[y/n]")
-            if select == "y":
+            is_percase = input("購入しますか[y/n]: ")
+            if is_percase == "y":
                 num = int(input("商品番号を入力してください: "))
-                おつり = vending_machine.money_sum() - 100
-                vending_machine.money.append(100)
                 vending_machine.write_購入履歴(vending_machine.goods[num - 1])
+                vending_machine.money.append(100)
                 print("商品:{}".format(vending_machine.goods[num - 1]))
-                vending_machine.clear()
-                is_continue = input("続けて購入しますか[y/n]")
+                おつり = vending_machine.money_sum() - 100
+                is_continue = input("続けて購入しますか[y/n]: ")
                 if is_continue == "y":
-                    vending_machine.personal_array = [おつり]
-                    continue
-                print("お釣り: {}円".format(おつり))
-            elif select == "n":
+                    if vending_machine.money_sum() <= 100:
+                        print("お金が足りません")
+                        i = input("お金を入れてください: ")
+                        vending_machine.enter(i)
+                    else:
+                        vending_machine.personal_array = [おつり]
+                else:
+                    print("お釣り: {}円".format(おつり))
+                    vending_machine.clear()
+                    i = input("お金を入れてください: ")
+                    vending_machine.enter(i)
+            else:
                 print("返金致します")
                 vending_machine.clear()
+                i = input("お金を入れてください: ")
+                vending_machine.enter(i)
         else:
             is_back = input("返金しますか[y/n]")
             if is_back == "y":
@@ -93,3 +101,5 @@ if __name__ == "__main__":
                 vending_machine.clear()
             else:
                 print("お金が足りません")
+                i = input("お金を入れてください: ")
+                vending_machine.enter(i)
