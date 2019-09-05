@@ -39,15 +39,18 @@ class VendingMachine():
         self.personal_array = []
 
 
+    def show_goods(self):
+        print("===================")
+        print("全商品100円でございます！！")
+        for ind, goods in enumerate(self.goods, start=1):  # 商品を表示
+            print("{}: {}".format(ind, goods))
+        print("===================")
+
 if __name__ == "__main__":
     vending_machine = VendingMachine()
 
     if vending_machine.money_sum() == 0:
-        print("===================")
-        print("全商品100円でございます！！")
-        for ind, goods in enumerate(vending_machine.goods, start=1):  # 商品を表示
-            print("{}: {}".format(ind, goods))
-        print("===================")
+        vending_machine.show_goods()
 
     while(True):
         if vending_machine.money_sum() < 100:
@@ -77,30 +80,28 @@ if __name__ == "__main__":
                 print("商品:{}".format(vending_machine.goods[num - 1]))
                 おつり = vending_machine.money_sum() - 100
                 is_continue = input("続けて購入しますか[y/n]: ")
-                print("現在{}円が入っています".format(おつり))
                 if is_continue == "y":
+                    print("現在{}円が入っています".format(おつり))
                     if vending_machine.money_sum() < 100:
                         print("お金が足りません")
-                        # i = input("お金を入れてください: ")
-                        # vending_machine.enter(i)
+
                     else:
                         vending_machine.personal_array = [おつり]
                 else:
                     print("お釣り: {}円".format(おつり))
                     vending_machine.clear()
-                    # i = input("お金を入れてください: ")
-                    # vending_machine.enter(i)
+                    vending_machine.show_goods()
+
             else:
                 print("返金致します")
                 vending_machine.clear()
-                i = input("お金を入れてください: ")
-                vending_machine.enter(i)
+                vending_machine.show_goods()
+
         else:
             is_back = input("返金しますか[y/n]")
             if is_back == "y":
                 print("返金致します")
                 vending_machine.clear()
+                vending_machine.show_goods()
             else:
                 print("お金が足りません")
-                # i = input("お金を入れてください: ")
-                # vending_machine.enter(i)
