@@ -66,7 +66,7 @@ if __name__ == "__main__":
                 print("=========")
                 continue
             else:
-                vending_machine.enter(int(i))
+                print(vending_machine.enter(int(i)))
 
         if vending_machine.money_sum() >= 100:
             is_percase = input("購入しますか[y/n]: ")
@@ -77,6 +77,7 @@ if __name__ == "__main__":
                 print("商品:{}".format(vending_machine.goods[num - 1]))
                 おつり = vending_machine.money_sum() - 100
                 is_continue = input("続けて購入しますか[y/n]: ")
+                print("現在{}円が入っています".format(おつり))
                 if is_continue == "y":
                     if vending_machine.money_sum() < 100:
                         print("お金が足りません")
